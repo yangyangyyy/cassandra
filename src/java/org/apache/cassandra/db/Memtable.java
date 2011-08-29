@@ -206,7 +206,7 @@ public class Memtable
             clonedCf = cf.cloneMeShallow();
             for (IColumn column : cf.getSortedColumns())
                 clonedCf.addColumn(column.localCopy(cfs, allocator));
-            clonedCf = columnFamilies.putIfAbsent(new DecoratedKey(key.token, allocator.clone(key.key)), clonedCf);
+            clonedCf = columnFamilies.putIfAbsent(new DecoratedKey(key.token, allocator.getLongLifeVersion().clone(key.key)), clonedCf);
             if (clonedCf == null)
                 return;
             // else there was a race and the other thread won.  fall through to updating his CF object
