@@ -81,13 +81,16 @@ public class Memtable
 
     private final long THRESHOLD;
     private final long THRESHOLD_COUNT;
-    private SlabAllocator allocator = new SlabAllocator();
+    private SlabAllocator allocator ;
 
     public Memtable(ColumnFamilyStore cfs)
     {
         this.cfs = cfs;
         THRESHOLD = cfs.getMemtableThroughputInMB() * 1024L * 1024L;
         THRESHOLD_COUNT = (long) (cfs.getMemtableOperationsInMillions() * 1024 * 1024);
+        SlabAllocator longLifeAllocator = new SlabAllocator();
+        SlabAllocator shortLifeAllocator = new SlabAllocator();
+        allocator = new SlabAllocator(longLifeAllocator, shortLifeAllocator);
     }
 
     public long getLiveSize()

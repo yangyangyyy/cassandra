@@ -50,6 +50,26 @@ public class SlabAllocator extends Allocator
 
     private final AtomicReference<Region> currentRegion = new AtomicReference<Region>();
     private final Collection<Region> filledRegions = new LinkedBlockingQueue<Region>();
+    private SlabAllocator longLifeVersion;
+    private SlabAllocator shortLifeVersion;
+    
+    public SlabAllocator() {
+        longLifeVersion = this;
+        shortLifeVersion = this;
+    }
+    
+    public SlabAllocator(SlabAllocator longLifeAllocator, SlabAllocator shortLifeAllocator) {
+        this.longLifeVersion = longLifeAllocator;
+        this.shortLifeVersion = shortLifeAllocator;
+    }
+    
+    public SlabAllocator getLongLifeVersion() {
+        return longLifeVersion;
+    }
+    
+    public SlabAllocator getShortLifeVersion() {
+        return shortLifeVersion;
+    }
 
     /** @return Total number of bytes allocated by this allocator. */
     public long size()
@@ -97,7 +117,7 @@ public class SlabAllocator extends Allocator
     {
         if (currentRegion.compareAndSet(region, null))
         {
-            filledRegions.add(region);
+//            filledRegions.add(region);
         }
     }
 

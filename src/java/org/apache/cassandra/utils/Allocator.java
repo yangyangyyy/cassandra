@@ -37,5 +37,11 @@ public abstract class Allocator
         return cloned;
     }
 
+    public Allocator getLongLifeVersion() {
+        return this;
+    }
+    public Allocator getShortLifeVersion() {
+        return this;
+    }
     public abstract ByteBuffer allocate(int size);
 } 

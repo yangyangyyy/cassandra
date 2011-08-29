@@ -164,7 +164,7 @@ public class CounterColumn extends Column
         // live + live: merge clocks; update value
         return new CounterColumn(
             name(),
-            contextManager.merge(value(), column.value(), allocator),
+            contextManager.merge(value(), column.value(), allocator.getShortLifeVersion()),
             Math.max(timestamp(), column.timestamp()),
             Math.max(timestampOfLastDelete(), ((CounterColumn)column).timestampOfLastDelete()));
     }

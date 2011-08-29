@@ -246,7 +246,7 @@ public class Column implements IColumn
     
     public IColumn localCopy(ColumnFamilyStore cfs, Allocator allocator)
     {
-        return new Column(cfs.internOrCopy(name, allocator), allocator.clone(value), timestamp);
+        return new Column(cfs.internOrCopy(name, allocator.getLongLifeVersion()), allocator.getShortLifeVersion().clone(value), timestamp);
     }
 
     public String getString(AbstractType comparator)
